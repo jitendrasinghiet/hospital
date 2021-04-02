@@ -7,7 +7,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 
 import com.playzone.patient.remote.PatientOperations;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = { "com.playzone" })
 @EnableEurekaClient
 @EnableFeignClients(basePackageClasses = {PatientOperations.class})
 public class HospitalApplication {

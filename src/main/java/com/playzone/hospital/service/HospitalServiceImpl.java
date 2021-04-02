@@ -14,12 +14,16 @@ import com.playzone.hospital.entity.Hospital;
 import com.playzone.hospital.exception.HospitalNotFoundException;
 import com.playzone.hospital.repository.HospitalRepository;
 import com.playzone.hospital.search.SpecificationBuilder;
+import com.playzone.kafka.KafkaSender;
 
 @Service
 public class HospitalServiceImpl implements HospitalService{
 	
 	@Autowired
 	private HospitalRepository hospitalRepository;
+	
+	@Autowired
+	private KafkaSender kafkaSender;
 
 	@Override
 	public List<Hospital> getAll() {
@@ -48,7 +52,8 @@ public class HospitalServiceImpl implements HospitalService{
 
 	@Override
 	public void delete(Long id) {
-		hospitalRepository.deleteById(id);		
+		hospitalRepository.deleteById(id);	
+		kafkaSender.sendMessage("Hospital deleted:"+id);
 	}
 
 	@Override
